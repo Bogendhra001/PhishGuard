@@ -106,7 +106,7 @@ Here, we are just extracting the domain present in the URL. This feature doesn't
 def getDomain(url):
   domain = urlparse(url).netloc
   if re.match(r"^www.",domain):
-	       domain = domain.replace("www.","")
+    domain = domain.replace("www.","")
   return domain
 
 """#### **3.1.2. IP Address in the URL**
