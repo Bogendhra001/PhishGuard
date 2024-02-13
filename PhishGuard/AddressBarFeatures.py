@@ -80,3 +80,133 @@ def tinyURL(url):
         return 1
     else:
         return 0
+
+
+def prefixSuffix(url):
+    if '-' in urlparse(url).netloc:
+        return 1            # phishing
+    else:
+        return 0            # legitimate
+
+
+def is_favicon_external(url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+        favicon_link = soup.find('link', {'rel': 'icon'})
+
+        if favicon_link:
+            favicon_href = favicon_link.get('href')
+            parsed_favicon_url = urlparse(favicon_href)
+            parsed_main_url = urlparse(url)
+
+            # Check if the favicon domain is different from the main URL domain
+            return parsed_favicon_url.netloc != parsed_main_url.netloc
+
+    except requests.RequestException:
+        pass
+
+    return False
+
+
+def favilon(url):
+    if is_favicon_external(url):
+        return 1  # Phishing
+    else:
+        return 0  # Legitimate
+
+
+def sub_domain(url):
+    # Parse the URL to get the domain part
+    parsed_url = urlparse(url)
+    domain_part = parsed_url.netloc.replace("www.", "")
+
+    # Remove ccTLD if it exists
+    parts = domain_part.split('.')
+    if len(parts) > 1 and len(parts[-1]) <= 3:
+        domain_part = '.'.join(parts[:-1])
+
+    # Count the number of dots
+    dot_count = domain_part.count('.')
+
+    # Classification based on the number of dots
+    if dot_count == 1:
+        return -1
+    elif dot_count == 2:
+        return 0
+    else:
+        return 1
+
+
+def get_certificate_info(url):
+    try:
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+        cert = response.connection.sock.getpeercert(binary_form=True)
+        return x509.load_der_x509_certificate(cert, default_backend())
+    except requests.RequestException:
+        return None
+
+
+def https(url):
+    try:
+        certificate = get_certificate_info(url)
+        if certificate:
+            issuer = certificate.issuer.common_name
+            age_in_years = (datetime.now() -
+                            certificate.not_valid_before).days // 365
+
+            if url.startswith("https://") and issuer in TRUSTED_ISSUERS and age_in_years >= MIN_REPUTABLE_CERT_AGE:
+                return -1
+            elif url.startswith("https://") and issuer not in TRUSTED_ISSUERS:
+                return 0
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+    return 1
+
+
+def domainEnd(domain_name):
+    expiration_date = domain_name.expiration_date
+    if isinstance(expiration_date, str):
+        try:
+            expiration_date = datetime.strptime(expiration_date, "%Y-%m-%d")
+        except:
+            return 1
+    if (expiration_date is None):
+        return 1
+    elif (type(expiration_date) is list):
+        return 1
+    else:
+        today = datetime.now()
+        end = abs((expiration_date - today).days)
+        if ((end/30) < 6):
+            end = 0
+        else:
+            end = 1
+    return end
+
+
+def Port(url):
+    preferred_ports = [80, 443]  # Preferred ports
+    non_preferred_ports = [21, 22, 23, 445, 1433,
+                           1521, 3306, 3389]  # Non-preferred ports
+
+    try:
+        port = url.split(":")[-1]  # Extract port from the URL
+
+        if port.isdigit():
+            port = int(port)
+
+            if port in preferred_ports:
+                return 0
+            elif port in non_preferred_ports:
+                return 1
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+    return 0  # Default classification if port cannot be determined
