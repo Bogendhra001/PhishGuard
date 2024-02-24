@@ -111,7 +111,7 @@ def is_favicon_external(url):
     return False
 
 
-def favilon(url):
+def favicon(url):
     if is_favicon_external(url):
         return 1  # Phishing
     else:
@@ -169,7 +169,7 @@ def https(url):
     return 1
 
 
-def domainEnd(domain_name):
+def DomainRegistrationLength(domain_name):
     expiration_date = domain_name.expiration_date
     if isinstance(expiration_date, str):
         try:
