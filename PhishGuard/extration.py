@@ -89,7 +89,7 @@ Now, feature extraction is performed on phishing URLs.
 # Extracting the feautres & storing them in a list
 phish_features = []
 for i in range(1):
-    url = phishurl['URLs'][i]
+    url = phishurl
     print(i, end=" ")
     phish_features.append(featureExtraction(url))
 
