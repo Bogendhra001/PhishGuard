@@ -13,7 +13,7 @@ from cryptography.hazmat.backends import default_backend
 from datetime import datetime
 from urllib.parse import urlparse, urljoin
 import joblib
-from features import *
+from Features import *
 
 
 """## **4. Computing URL Features**
@@ -24,7 +24,7 @@ Create a list and a function that calls the other functions and stores all the f
 # Function to extract features
 
 
-def featureExtraction(url, label):
+def featureExtraction(url):
 
     features = []
     # Address bar based features (10)
@@ -78,22 +78,20 @@ def featureExtraction(url, label):
     return features
 
 
+phishurl = (input("Enter the URL : "))
+
 """### **4.2. Phishing URLs:**
 
 Now, feature extraction is performed on phishing URLs.
 """
 
-phishurl.shape
-
-phishurl.head()
 
 # Extracting the feautres & storing them in a list
 phish_features = []
-label = 1
 for i in range(1):
     url = phishurl['URLs'][i]
     print(i, end=" ")
-    phish_features.append(featureExtraction(url, label))
+    phish_features.append(featureExtraction(url))
 
 # converting the list to dataframe
 feature_names = ['Domain', 'Have_IP', 'Have_At', 'URL_Length', 'URL_Depth', 'Redirection',
@@ -103,8 +101,8 @@ phishing = pd.DataFrame(phish_features, columns=feature_names)
 
 phishing = phishing.drop('Domain', axis=1)
 phishing = phishing.drop('Have_At', axis=1)
-phishing.head()
-
+print(phishing)
+s
 # Load the model from the file
 loaded_model = joblib.load(
     '/content/drive/MyDrive/Project Phase-1/Code/Url analysis/model/ensemble_model.joblib')
