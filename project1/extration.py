@@ -112,7 +112,7 @@ loaded_model = joblib.load(
 
 y = loaded_model.predict(phishing)
 
-if y == '-1':
+if y == [-1]:
     print("Legistimate  Website")
 else:
     print("Phishing Website")
