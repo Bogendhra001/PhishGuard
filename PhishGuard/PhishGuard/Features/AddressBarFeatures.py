@@ -190,6 +190,38 @@ def DomainRegistrationLength(domain_name):
     return end
 
 
+"""#### **3.2.3. Age of Domain**
+
+This feature can be extracted from WHOIS database. Most phishing websites live for a short period of time. The minimum age of the legitimate domain is considered to be 12 months for this project. Age here is nothing but different between creation and expiration time.
+
+If age of domain > 12 months, the vlaue of this feature is 1 (phishing) else 0 (legitimate).
+"""
+
+# 13.Survival time of domain: The difference between termination time and creation time (Domain_Age)
+
+
+def domainRegistrationLength(domain_name):
+    creation_date = domain_name.creation_date
+    expiration_date = domain_name.expiration_date
+    if (isinstance(creation_date, str) or isinstance(expiration_date, str)):
+        try:
+            creation_date = datetime.strptime(creation_date, '%Y-%m-%d')
+            expiration_date = datetime.strptime(expiration_date, "%Y-%m-%d")
+        except:
+            return 1
+    if ((expiration_date is None) or (creation_date is None)):
+        return 1
+    elif ((type(expiration_date) is list) or (type(creation_date) is list)):
+        return 1
+    else:
+        ageofdomain = abs((expiration_date - creation_date).days)
+        if ((ageofdomain/30) < 12):
+            age = 1
+        else:
+            age = 0
+    return age
+
+
 def Port(url):
     preferred_ports = [80, 443]  # Preferred ports
     non_preferred_ports = [21, 22, 23, 445, 1433,

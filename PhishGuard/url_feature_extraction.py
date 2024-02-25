@@ -1120,11 +1120,11 @@ def featureExtraction(url,label):
 
   features.append(dns)
   features.append(Web_traffic(url))
-  features.append(favilon(url))
+  features.append(favicon(url))
   features.append(sub_domain(url))
   features.append(https(url))
-  features.append(1 if dns == 1 else domainAge(domain_name))
-  features.append(1 if dns == 1 else domainEnd(domain_name))
+  features.append(1 if dns == 1 else domainRegistrationLength(domain_name))
+  features.append(1 if dns == 1 else AgeofDomain(domain_name))
   features.append(Port(url))
 
   # HTML & Javascript based features (4)
@@ -1177,7 +1177,7 @@ loaded_model = joblib.load('/content/drive/MyDrive/Project Phase-1/Code/Url anal
 
 y=loaded_model.predict(phishing)
 
-y
+print(y)
 
 # # Storing the extracted legitimate URLs fatures to csv file
 # phishing.to_csv('phishing.csv', index= False)
