@@ -119,7 +119,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [os.path.join(
-    BASE_DIR, 'FrontEnd\phishguard\build\static'),]
+    BASE_DIR, 'D:\PhishGuard\project1\FrontEnd\phishguard/build\static'),]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
