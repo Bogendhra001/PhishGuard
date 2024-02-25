@@ -112,7 +112,10 @@ loaded_model = joblib.load(
 
 y = loaded_model.predict(phishing)
 
-print(y)
+if y == '-1':
+    print("Legistimate  Website")
+else:
+    print("Phishing Website")
 
 # # Storing the extracted legitimate URLs fatures to csv file
 # phishing.to_csv('phishing.csv', index= False)
