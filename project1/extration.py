@@ -108,7 +108,7 @@ print(phishing)
 
 # Load the model from the file
 loaded_model = joblib.load(
-    'project1\model\ensemble_model.joblib')
+    'model\ensemble_model.joblib')
 
 y = loaded_model.predict(phishing)
 
