@@ -14,6 +14,10 @@ from datetime import datetime
 from urllib.parse import urlparse, urljoin
 import joblib
 from Features import *
+from AddressBarFeatures import *
+from AbnormalFeatures import *
+from DomainBasedFeatures import *
+from HttpsBasedFeatures import *
 
 
 """## **4. Computing URL Features**
@@ -102,7 +106,7 @@ phishing = pd.DataFrame(phish_features, columns=feature_names)
 phishing = phishing.drop('Domain', axis=1)
 phishing = phishing.drop('Have_At', axis=1)
 print(phishing)
-s
+
 # Load the model from the file
 loaded_model = joblib.load(
     '/content/drive/MyDrive/Project Phase-1/Code/Url analysis/model/ensemble_model.joblib')

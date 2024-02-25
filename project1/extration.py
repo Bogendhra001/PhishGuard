@@ -89,7 +89,7 @@ Now, feature extraction is performed on phishing URLs.
 # Extracting the feautres & storing them in a list
 phish_features = []
 for i in range(1):
-    url = phishurl['URLs'][i]
+    url = phishurl
     print(i, end=" ")
     phish_features.append(featureExtraction(url))
 
@@ -102,7 +102,7 @@ phishing = pd.DataFrame(phish_features, columns=feature_names)
 phishing = phishing.drop('Domain', axis=1)
 phishing = phishing.drop('Have_At', axis=1)
 print(phishing)
-s
+
 # Load the model from the file
 loaded_model = joblib.load(
     '/content/drive/MyDrive/Project Phase-1/Code/Url analysis/model/ensemble_model.joblib')
