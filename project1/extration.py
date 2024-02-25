@@ -13,11 +13,10 @@ from cryptography.hazmat.backends import default_backend
 from datetime import datetime
 from urllib.parse import urlparse, urljoin
 import joblib
-from Features import *
-from AddressBarFeatures import *
-from AbnormalFeatures import *
-from DomainBasedFeatures import *
-from HttpsBasedFeatures import *
+from Features.AddressBarFeatures import *
+from Features.AbnormalFeatures import *
+from Features.DomainBasedFeatures import *
+from Features.HttpsBasedFeatures import *
 
 
 """## **4. Computing URL Features**
