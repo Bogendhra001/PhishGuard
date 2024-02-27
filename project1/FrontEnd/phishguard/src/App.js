@@ -1,22 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
+import Input from './Url_input';
+import icon from 'D:\PhishGuard\project1\FrontEnd\phishguard\public\PhishGuard.png';
 
 function App() {
+  const prt=()=>{
+    console.log("Button clicked");
+  }
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <img src={icon} className="App-logo" alt="logo" />
       </header>
     </div>
   );

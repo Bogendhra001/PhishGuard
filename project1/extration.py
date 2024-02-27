@@ -58,7 +58,10 @@ def featureExtraction(url):
     features.append(Web_traffic(url))
     features.append(favicon(url))
     features.append(sub_domain(url))
+
+    # this feature is giving the error that http socket is not present that comsumming lot of time
     features.append(https(url))
+
     features.append(1 if dns == 1 else domainRegistrationLength(domain_name))
     features.append(1 if dns == 1 else AgeofDomain(domain_name))
     features.append(Port(url))
@@ -73,7 +76,7 @@ def featureExtraction(url):
     features.append(rightClick(response))
     features.append(forwarding(response))
     features.append(page_rank(url))
-    features.append(google_index(url))
+    features.append(google_index(url))                # consumming lot of time
     features.append(links_to_page(url))
     # features.append(popup(url))
     # features.append(label)
@@ -81,7 +84,7 @@ def featureExtraction(url):
     return features
 
 
-phishurl = (input("Enter the URL : "))
+# phishurl = (input("Enter the URL : "))
 
 """### **4.2. Phishing URLs:**
 
@@ -89,30 +92,38 @@ Now, feature extraction is performed on phishing URLs.
 """
 
 
-# Extracting the feautres & storing them in a list
-phish_features = []
-for i in range(1):
-    url = phishurl
-    print(i, end=" ")
-    phish_features.append(featureExtraction(url))
+def Predict(data):
+    loaded_model = joblib.load(
+        'model\ensemble_model.joblib')
+    y = loaded_model.predict(data)
+    return (y)
 
-# converting the list to dataframe
-feature_names = ['Domain', 'Have_IP', 'Have_At', 'URL_Length', 'URL_Depth', 'Redirection',
-                 'https_Domain', 'TinyURL', 'Prefix/Suffix', 'request_url', 'Anchor_url', 'Links_in_tags', 'sfh', 'email_submission', 'hostname', 'DNS_Record', 'Web_Traffic', 'Favilon', 'Sub_domain', 'https',
-                 'Domain_Age', 'Domain_End', 'Port', 'iFrame', 'Mouse_Over', 'Right_Click', 'Web_Forwards', 'Page_rank', 'google_index', 'Links_to_pages']
-phishing = pd.DataFrame(phish_features, columns=feature_names)
 
-phishing = phishing.drop('Domain', axis=1)
-phishing = phishing.drop('Have_At', axis=1)
-print(phishing)
+def extract(phishurl):
 
-# Load the model from the file
-loaded_model = joblib.load(
-    'model\ensemble_model.joblib')
+    # Extracting the feautres & storing them in a list
+    phish_features = []
+    for i in range(1):
+        url = phishurl
+        # print(i, end=" ")
+        phish_features.append(featureExtraction(url))
 
-y = loaded_model.predict(phishing)
+    # converting the list to dataframe
+    feature_names = ['Domain', 'Have_IP', 'Have_At', 'URL_Length', 'URL_Depth', 'Redirection',
+                     'https_Domain', 'TinyURL', 'Prefix/Suffix', 'request_url', 'Anchor_url', 'Links_in_tags', 'sfh', 'email_submission', 'hostname', 'DNS_Record', 'Web_Traffic', 'Favilon', 'Sub_domain', 'https',
+                     'Domain_Age', 'Domain_End', 'Port', 'iFrame', 'Mouse_Over', 'Right_Click', 'Web_Forwards', 'Page_rank', 'google_index', 'Links_to_pages']
+    phishing = pd.DataFrame(phish_features, columns=feature_names)
 
-if y == [-1]:
-    print("Legistimate  Website")
-else:
-    print("Phishing Website")
+    phishing = phishing.drop('Domain', axis=1)
+    phishing = phishing.drop('Have_At', axis=1)
+    print(phishing)
+
+    # Load the model from the file
+
+    y = Predict(phishing)
+
+    return (y)
+
+
+# url = input("Enter the url")
+# print(extract(url))
