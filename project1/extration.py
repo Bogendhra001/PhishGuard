@@ -60,7 +60,8 @@ def featureExtraction(url):
     features.append(sub_domain(url))
 
     # this feature is giving the error that http socket is not present that comsumming lot of time
-    features.append(https(url))
+    # features.append(https(url))
+    features.append(1)
 
     features.append(1 if dns == 1 else domainRegistrationLength(domain_name))
     features.append(1 if dns == 1 else AgeofDomain(domain_name))
@@ -76,7 +77,8 @@ def featureExtraction(url):
     features.append(rightClick(response))
     features.append(forwarding(response))
     features.append(page_rank(url))
-    features.append(google_index(url))                # consumming lot of time
+    # features.append(google_index(url))
+    features.append(1)               # consumming lot of time
     features.append(links_to_page(url))
     # features.append(popup(url))
     # features.append(label)
@@ -121,6 +123,10 @@ def extract(phishurl):
     # Load the model from the file
 
     y = Predict(phishing)
+    if y[0] == 1:
+        y = "Phishing Website"
+    else:
+        y = "Legistimate Website"
 
     return (y)
 

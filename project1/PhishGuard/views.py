@@ -28,5 +28,5 @@ def index(request):
 def classify(request, dynamic_string):
     # calling the function to get the result of classification
     result = extract(dynamic_string)
-    result_json = json.dumps(result.tolist())
-    return JsonResponse({"result": result_json})
+    # result_json = json.dumps(result.tolist())     # instood of ndarray we passed direct string value no need for convertion
+    return JsonResponse({"result": result})
