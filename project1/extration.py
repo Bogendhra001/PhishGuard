@@ -32,20 +32,36 @@ def featureExtraction(url):
     features = []
     # Address bar based features (10)
     features.append(getDomain(url))
+    print(features)
     features.append(havingIP(url))
+    print(features)
     features.append(haveAtSign(url))
+    print(features)
     features.append(getLength(url))
+    print(features)
     features.append(getDepth(url))
+    print(features)
     features.append(redirection(url))
+    print(features)
     features.append(httpDomain(url))
+    print(features)
     features.append(tinyURL(url))
+    print(features)
     features.append(prefixSuffix(url))
+    print(features)
     features.append(request_url(url))
+    print(features)
     features.append(anchor_url(url))
+    print(features)
     features.append(links_in_tags(url))
+    print(features)
     features.append(sfh(url))
+    print(features)
     features.append(email_submission(url))
+    print(features)
     features.append(hostname(url))
+    print(features)
+    print("Done address")
 
     # Domain based features (4)
     dns = 0
@@ -66,7 +82,7 @@ def featureExtraction(url):
     features.append(1 if dns == 1 else domainRegistrationLength(domain_name))
     features.append(1 if dns == 1 else AgeofDomain(domain_name))
     features.append(Port(url))
-
+    print('Done dns')
     # HTML & Javascript based features (4)
     try:
         response = requests.get(url)
@@ -76,12 +92,14 @@ def featureExtraction(url):
     features.append(mouseOver(response))
     features.append(rightClick(response))
     features.append(forwarding(response))
-    features.append(page_rank(url))
-    # features.append(google_index(url))
-    features.append(1)               # consumming lot of time
+    # features.append(page_rank(url))
+    features.append(1)
+    features.append(google_index(url))
+    # consumming lot of time
     features.append(links_to_page(url))
     # features.append(popup(url))
     # features.append(label)
+    print("done html and js")
 
     return features
 
@@ -131,5 +149,5 @@ def extract(phishurl):
     return (y)
 
 
-# url = input("Enter the url")
-# print(extract(url))
+url = input("Enter the url")
+print(extract(url))
