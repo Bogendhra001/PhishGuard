@@ -29,7 +29,7 @@ class Features:
         self.https = []
 
     def get_address(self, queue):
-        print("address")
+        # print("address")
         features = []
         features.append(getDomain(self.url))
         features.append(havingIP(self.url))
@@ -49,7 +49,7 @@ class Features:
         queue.put(features)
 
     def get_domain(self, queue):
-        print("dns")
+        # print("dns")
         # Domain based features (4)
         features = []
         dns = 0
@@ -74,7 +74,7 @@ class Features:
         queue.put(features)
 
     def get_http(self, queue):
-        print("https")
+        # print("https")
         features = []
         try:
             response = requests.get(self.url)
@@ -99,48 +99,48 @@ class Features:
         y = loaded_model.predict(data)
         return (y)
 
-    def extract(self):
-        l = self.address + self.Domian + self.https
-        # Extracting the features & storing them in a list
-        print(l)
+    # def extract(self):
+    #     l = self.address + self.Domian + self.https
+    #     # Extracting the features & storing them in a list
+    #     print(l)
+    #     # phish_features = [l]
+    #     # # converting the list to dataframe
+    #     # feature_names = ['Domain', 'Have_IP', 'Have_At', 'URL_Length', 'URL_Depth', 'Redirection',
+    #     #                 'https_Domain', 'TinyURL', 'Prefix/Suffix', 'request_url', 'Anchor_url', 'Links_in_tags', 'sfh', 'email_submission', 'hostname', 'DNS_Record', 'Web_Traffic', 'Favilon', 'Sub_domain', 'https',
+    #     #                 'Domain_Age', 'Domain_End', 'Port', 'iFrame', 'Mouse_Over', 'Right_Click', 'Web_Forwards', 'Page_rank', 'google_index', 'Links_to_pages']
+    #     # phishing = pd.DataFrame(phish_features, columns=feature_names)
+
+    #     # phishing = phishing.drop('Domain', axis=1)
+    #     # phishing = phishing.drop('Have_At', axis=1)
+    #     # print(phishing)
+    #     # y = self.Predict(phishing)
+    #     # if y[0] == 1:
+    #     #     y = "Phishing Website"
+    #     # else:
+    #     #     y = "Legistimate Website"
+
+    #     return ("done")
+
+    # def extract(self):
+        # l = self.address+self.Domian+self.https
+        # # Extracting the feautres & storing them in a list
         # phish_features = [l]
         # # converting the list to dataframe
         # feature_names = ['Domain', 'Have_IP', 'Have_At', 'URL_Length', 'URL_Depth', 'Redirection',
-        #                 'https_Domain', 'TinyURL', 'Prefix/Suffix', 'request_url', 'Anchor_url', 'Links_in_tags', 'sfh', 'email_submission', 'hostname', 'DNS_Record', 'Web_Traffic', 'Favilon', 'Sub_domain', 'https',
-        #                 'Domain_Age', 'Domain_End', 'Port', 'iFrame', 'Mouse_Over', 'Right_Click', 'Web_Forwards', 'Page_rank', 'google_index', 'Links_to_pages']
+        #                  'https_Domain', 'TinyURL', 'Prefix/Suffix', 'request_url', 'Anchor_url', 'Links_in_tags', 'sfh', 'email_submission', 'hostname', 'DNS_Record', 'Web_Traffic', 'Favilon', 'Sub_domain', 'https',
+        #                  'Domain_Age', 'Domain_End', 'Port', 'iFrame', 'Mouse_Over', 'Right_Click', 'Web_Forwards', 'Page_rank', 'google_index', 'Links_to_pages']
         # phishing = pd.DataFrame(phish_features, columns=feature_names)
 
         # phishing = phishing.drop('Domain', axis=1)
         # phishing = phishing.drop('Have_At', axis=1)
         # print(phishing)
-        # y = self.Predict(phishing)
-        # if y[0] == 1:
-        #     y = "Phishing Website"
-        # else:
-        #     y = "Legistimate Website"
+        # # y = self.Predict(phishing)
+        # # if y[0] == 1:
+        # #     y = "Phishing Website"
+        # # else:
+        # #     y = "Legistimate Website"
 
-        return ("done")
-
-    # def extract(self):
-        l = self.address+self.Domian+self.https
-        # Extracting the feautres & storing them in a list
-        phish_features = [l]
-        # converting the list to dataframe
-        feature_names = ['Domain', 'Have_IP', 'Have_At', 'URL_Length', 'URL_Depth', 'Redirection',
-                         'https_Domain', 'TinyURL', 'Prefix/Suffix', 'request_url', 'Anchor_url', 'Links_in_tags', 'sfh', 'email_submission', 'hostname', 'DNS_Record', 'Web_Traffic', 'Favilon', 'Sub_domain', 'https',
-                         'Domain_Age', 'Domain_End', 'Port', 'iFrame', 'Mouse_Over', 'Right_Click', 'Web_Forwards', 'Page_rank', 'google_index', 'Links_to_pages']
-        phishing = pd.DataFrame(phish_features, columns=feature_names)
-
-        phishing = phishing.drop('Domain', axis=1)
-        phishing = phishing.drop('Have_At', axis=1)
-        print(phishing)
-        # y = self.Predict(phishing)
-        # if y[0] == 1:
-        #     y = "Phishing Website"
-        # else:
-        #     y = "Legistimate Website"
-
-        return ("done")
+        # return ("done")
 
 
 # if __name__ == "__main__":
@@ -190,16 +190,16 @@ class Features:
                 else:
                     self.https = feature
 
-        print("job is done")
-        print(self.address)
-        print(self.domain)
-        print(self.https)
+        # print("job is done")
+        # print(self.address)
+        # print(self.domain)
+        # print(self.https)
         l = []
         l.extend(self.address)
         l.extend(self.domain)
         l.extend(self.https)
-        print(l)
-        print(len(l) == 30)
+        # print(l)
+        # print(len(l) == 30)
         # Extracting the feautres & storing them in a list
         phish_features = [l]
         # converting the list to dataframe
@@ -210,7 +210,7 @@ class Features:
 
         phishing = phishing.drop('Domain', axis=1)
         phishing = phishing.drop('Have_At', axis=1)
-        print(phishing)
+        # print(phishing)
         y = self.Predict(phishing)
         if y[0] == 1:
             y = "Phishing Website"
