@@ -17,7 +17,7 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from extration import extract  # Correct import statement
+from extraction import main  # Correct import statement
 import json
 
 
@@ -27,6 +27,6 @@ def index(request):
 
 def classify(request, dynamic_string):
     # calling the function to get the result of classification
-    result = extract(dynamic_string)
+    result = main(dynamic_string)
     # result_json = json.dumps(result.tolist())     # instood of ndarray we passed direct string value no need for convertion
     return JsonResponse({"result": result})

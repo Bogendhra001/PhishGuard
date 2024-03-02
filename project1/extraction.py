@@ -164,6 +164,7 @@ class Features:
 #     print("job is done")
 #     print(ob.extract())
 
+
     def extract(self):
         queue = multiprocessing.Queue()
         processes = []
@@ -224,3 +225,10 @@ if __name__ == "__main__":
     n = input("enter the url")
     ob = Features(n)
     print(ob.extract())
+
+
+def main(url):
+    ob = Features(url)
+    result = ob.extract()
+    print(result)
+    return (result)
