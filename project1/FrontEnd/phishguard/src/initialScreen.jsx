@@ -21,9 +21,6 @@ const InitialScreen = () => {
           if (response && response.url) {
             const url = response.url;
             console.log(url);
-            const fetchedResponse = await fetch(`http://127.0.0.1:8000/classify/${url}`);
-            const data = await fetchedResponse.json();
-            setResponseData(data);
             setError(null);
           } else {
             setError("Unable to fetch URL from the active tab.");
