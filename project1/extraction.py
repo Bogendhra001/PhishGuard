@@ -30,22 +30,29 @@ class Features:
 
     def get_address(self, queue):
         # print("address")
+        dns = 0
+        try:
+            domain_name = whois.whois(urlparse(self.url).netloc)
+        except:
+            dns = 1
         features = []
-        features.append(getDomain(self.url))
+        # features.append(getDomain(self.url))
         features.append(havingIP(self.url))
-        features.append(haveAtSign(self.url))
         features.append(getLength(self.url))
-        features.append(getDepth(self.url))
-        features.append(redirection(self.url))
-        features.append(httpDomain(self.url))
         features.append(tinyURL(self.url))
+        # features.append(getDepth(self.url))
+        features.append(haveAtSign(self.url))
+        features.append(redirection(self.url))
         features.append(prefixSuffix(self.url))
-        features.append(request_url(self.url))
-        features.append(anchor_url(self.url))
-        features.append(links_in_tags(self.url))
-        features.append(sfh(self.url))
-        features.append(email_submission(self.url))
-        features.append(hostname(self.url))
+        features.append(sub_domain(self.url))
+        # this feature is giving the error that http socket is not present that comsumming lot of time
+        # features.append(https(self.url))
+        features.append(1)
+        features.append(
+            1 if dns == 1 else domainRegistrationLength(domain_name))
+        features.append(favicon(self.url))
+        features.append(Port(self.url))
+        features.append(httpDomain(self.url))
         queue.put(features)
 
     def get_domain(self, queue):
@@ -57,20 +64,16 @@ class Features:
             domain_name = whois.whois(urlparse(self.url).netloc)
         except:
             dns = 1
-
+        features.append(1 if dns == 1 else AgeofDomain(domain_name))
         features.append(dns)
         features.append(Web_traffic(self.url))
-        features.append(favicon(self.url))
-        features.append(sub_domain(self.url))
+        features.append(google_index(self.url))
+        # # features.append(page_rank(self.url))
+        # features.append(1)
 
-        # this feature is giving the error that http socket is not present that comsumming lot of time
-        # features.append(https(self.url))
-        features.append(1)
+        # consumming lot of time
+        features.append(links_to_page(self.url))
 
-        features.append(
-            1 if dns == 1 else domainRegistrationLength(domain_name))
-        features.append(1 if dns == 1 else AgeofDomain(domain_name))
-        features.append(Port(self.url))
         queue.put(features)
 
     def get_http(self, queue):
@@ -80,22 +83,24 @@ class Features:
             response = requests.get(self.url)
         except:
             response = ""
-        features.append(iframe(response))
+        features.append(request_url(self.url))
+        features.append(anchor_url(self.url))
+        features.append(links_in_tags(self.url))
+        features.append(sfh(self.url))
+        features.append(email_submission(self.url))
+        features.append(hostname(self.url))
+        features.append(forwarding(response))
         features.append(mouseOver(response))
         features.append(rightClick(response))
-        features.append(forwarding(response))
-        # features.append(page_rank(self.url))
-        features.append(1)
-        features.append(google_index(self.url))
-        # consumming lot of time
-        features.append(links_to_page(self.url))
+        features.append(iframe(response))
+
         # features.append(popup(self.url))
         # features.append(label)
         queue.put(features)
 
     def Predict(self, data):
         loaded_model = joblib.load(
-            'model\ensemble_model.joblib')
+            'model\ensemble_model_updated.joblib')
         y = loaded_model.predict(data)
         return (y)
 
@@ -173,7 +178,7 @@ class Features:
         p2 = multiprocessing.Process(target=self.get_domain, args=(queue,))
         p3 = multiprocessing.Process(target=self.get_http, args=(queue,))
 
-        processes.extend([p1, p2, p3])
+        processes.extend([p1, p3, p2])
 
         for p in processes:
             p.start()
@@ -184,9 +189,9 @@ class Features:
         while not queue.empty():
             feature = queue.get()
             if feature:
-                if len(feature) == 15:
+                if len(feature) == 12:
                     self.address = feature
-                elif len(feature) == 8:
+                elif len(feature) == 5:
                     self.domain = feature
                 else:
                     self.https = feature
@@ -197,20 +202,23 @@ class Features:
         # print(self.https)
         l = []
         l.extend(self.address)
-        l.extend(self.domain)
         l.extend(self.https)
+        l.extend(self.domain)
+
         # print(l)
         # print(len(l) == 30)
         # Extracting the feautres & storing them in a list
         phish_features = [l]
         # converting the list to dataframe
-        feature_names = ['Domain', 'Have_IP', 'Have_At', 'URL_Length', 'URL_Depth', 'Redirection',
-                         'https_Domain', 'TinyURL', 'Prefix/Suffix', 'request_url', 'Anchor_url', 'Links_in_tags', 'sfh', 'email_submission', 'hostname', 'DNS_Record', 'Web_Traffic', 'Favilon', 'Sub_domain', 'https',
-                         'Domain_Age', 'Domain_End', 'Port', 'iFrame', 'Mouse_Over', 'Right_Click', 'Web_Forwards', 'Page_rank', 'google_index', 'Links_to_pages']
+        feature_names = ['UsingIP', 'LongURL', 'ShortURL', 'Symbol@', 'Redirecting//',
+                         'PrefixSuffix-', 'SubDomains', 'HTTPS', 'DomainRegLen', 'Favicon',
+                         'NonStdPort', 'HTTPSDomainURL', 'RequestURL', 'AnchorURL',
+                         'LinksInScriptTags', 'ServerFormHandler', 'InfoEmail', 'AbnormalURL',
+                         'WebsiteForwarding', 'StatusBarCust', 'DisableRightClick',
+                         'IframeRedirection', 'AgeofDomain', 'DNSRecording', 'WebsiteTraffic',
+                         'GoogleIndex', 'LinksPointingToPage']
         phishing = pd.DataFrame(phish_features, columns=feature_names)
 
-        phishing = phishing.drop('Domain', axis=1)
-        phishing = phishing.drop('Have_At', axis=1)
         # print(phishing)
         y = self.Predict(phishing)
         if y[0] == 1:
