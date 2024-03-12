@@ -1,6 +1,7 @@
 import pandas as pd
 from urllib.parse import urlparse, urlencode
 import ipaddress
+import asyncio
 import re
 from bs4 import BeautifulSoup
 import whois
@@ -18,6 +19,8 @@ from Features.AbnormalFeatures import *
 from Features.DomainBasedFeatures import *
 from Features.HttpsBasedFeatures import *
 import multiprocessing
+import time
+
 
 
 class Features:
@@ -27,6 +30,9 @@ class Features:
         self.address = []
         self.domian = []
         self.https = []
+    # async def async_method(self):
+    #     print("Async method starts")
+    #     await asyncio.sleep(4)
 
     def get_address(self, queue):
         # print("address")
@@ -100,7 +106,7 @@ class Features:
 
     def Predict(self, data):
         loaded_model = joblib.load(
-            'model\ensemble_model_updated.joblib')
+            'model/ensemble_model_updated.joblib')
         y = loaded_model.predict(data)
         return (y)
 
@@ -116,7 +122,8 @@ class Features:
 
         for p in processes:
             p.start()
-
+        # await self.async_method()
+        time.sleep(5)  
         for p in processes:
             p.join()
 
@@ -127,20 +134,20 @@ class Features:
                     self.address = feature
                 elif len(feature) == 5:
                     self.domain = feature
-                else:
+                elif len(feature)==10:
                     self.https = feature
 
         # print("job is done")
-        # print(self.address)
-        # print(self.domain)
-        # print(self.https)
+        print(self.address ,"address")
+        print(self.domain, "domain")
+        print(self.https, "https")
         l = []
         l.extend(self.address)
         l.extend(self.https)
         l.extend(self.domain)
 
         # print(l)
-        # print(len(l) == 30)
+        
         # Extracting the feautres & storing them in a list
         phish_features = [l]
         # converting the list to dataframe
@@ -160,7 +167,7 @@ class Features:
         else:
             y = "Legistimate Website"
 
-        return (y)
+        return ([phishing,y])
 
 
 if __name__ == "__main__":

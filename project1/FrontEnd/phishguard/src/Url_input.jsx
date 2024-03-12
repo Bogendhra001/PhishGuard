@@ -3,6 +3,7 @@
 
 import React, { useState } from "react";
 import Display from './Display';
+import './url_input.css';
 
 export default function Input() {
   const [url, setUrl] = useState("");
@@ -39,6 +40,8 @@ export default function Input() {
         <form>
           <label htmlFor='name'>Url:</label><br/>
           <input type='text' placeholder='Enter a url' value={url} onChange={handleUrlChange} />
+          <br></br>
+          <br></br>
           <button onClick={handleAnalyseClick} disabled={loading}>{loading ? 'Loading...' : 'Analyse'}</button> {/* Disable button and show loading text when loading */}
         </form>
         <br></br>

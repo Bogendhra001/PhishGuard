@@ -1,0 +1,30 @@
+/* Add this CSS to your stylesheet */
+button {
+    color: aquamarine;
+    background-color: transparent;
+    border: 2px solid aquamarine;
+    border-radius: 10px; /* Adjust the border-radius to change the curvature */
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: aquamarine;
+    color: white;
+  }
+
+
+  input[type='text'] {
+    border: 2px solid aquamarine;
+    border-radius: 10px; /* Adjust the border-radius to match the button */
+    padding: 8px 16px;
+    font-size: 16px;
+    outline: none;
+  }
+  
+  input[type='text']:focus {
+    border-color: aquamarine;
+    box-shadow: 0 0 5px aquamarine; /* Add a subtle shadow on focus */
+  }
+  
+  
